@@ -6,7 +6,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-              sh 'npm install'
+              nodejs(nodeJSInstallationName: 'Node 20.x'){
+                sh 'npm install'
+              } 
             }
         }
         stage('Test'){
