@@ -32,12 +32,14 @@ pipeline {
         }
         stage('Deploy for production'){
             when{
-                branch 'master'
+                branch 'release'
             }
             steps{
-              sh './jenkins/scripts/deliver-for-production.sh'
-              input message: 'Finished using the web site? (Click "Proceed" to continue)'
-              sh './jenkins/scripts/kill.sh'
+                nodejs(nodeJSInstallationName: 'Node 20.x'){
+                    sh './jenkins/scripts/deliver-for-production.sh'
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                    sh './jenkins/scripts/kill.sh'
+                }
 
             }
         }
