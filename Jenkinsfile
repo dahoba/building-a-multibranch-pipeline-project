@@ -13,7 +13,9 @@ pipeline {
         }
         stage('Test'){
             steps{
-                sh './jenkins/scripts/test.sh'
+                nodejs(nodeJSInstallationName: 'Node 20.x'){
+                  sh './jenkins/scripts/test.sh'
+                }
             }
         }
     }
