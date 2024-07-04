@@ -20,8 +20,8 @@ pipeline {
              branch 'develop'
           }
           steps{
-            withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-dev"]){
-              echo ''
+            withEnv(["DOCKER_IMAGE_TAG=${env.COMMIT_SHORT_SHA}-dev"]){
+
             }
           }
         }
@@ -30,11 +30,10 @@ pipeline {
              branch 'release'
           }
           steps{
-            withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-sit"]){
-              echo ''
+            withEnv(["DOCKER_IMAGE_TAG=${env.COMMIT_SHORT_SHA}-sit"]){
             }
           }
-        }        
+        }
         stage('Build') {
           when{
             anyOf { branch 'develop'; branch 'release' }
