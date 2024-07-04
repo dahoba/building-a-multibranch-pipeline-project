@@ -102,14 +102,14 @@ pipeline {
               }
             }
             stages{
-                input {
-                    message "Approve for UAT ?"
-                    ok "Approve"
-                    parameters {
-                        string(name: 'UATAPPROVE', defaultValue: 'true')
-                    }
-                } 
-                stage('UAT Approve'){
+                stage('UAT Approval?'){
+                    input {
+                        message "Approve for UAT ?"
+                        ok "Approve"
+                        parameters {
+                            string(name: 'UATAPPROVE', defaultValue: 'true')
+                        }
+                    } 
                     steps{
                         echo "UAT promotion approved!"
                     }
