@@ -15,17 +15,21 @@ pipeline {
       // https://github.com/dahoba/building-a-multibranch-pipeline-project
     }
     stages {
-        stage('prepare image tag'){
+        stage('prepare image tag for dev'){
          when{
              branch 'develop'
           }
-          withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-dev"])
+          steps{
+            withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-dev"])
+          }
         }
-        stage('prepare image tag'){
+        stage('prepare image tag for release'){
          when{
              branch 'release'
           }
-          withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-sit"])
+          steps{
+            withEnv(["DOCKER_IMAGE_TAG=${COMMIT_SHORT_SHA}-sit"])
+          }
         }        
         stage('Build') {
           when{
@@ -40,10 +44,10 @@ pipeline {
         }
         stage('Build Hotfix') {
           when{
-            branch pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+$", comparator: "REGEXP"
+            branch pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+\$", comparator: "REGEXP"
           }
           environment {
-            TAG_IMG_RELEASE = ${COMMIT_SHORT_SHA}
+            TAG_IMG_RELEASE = "${COMMIT_SHORT_SHA}"
           }
             steps {
               nodejs(nodeJSInstallationName: 'Node 20.x'){
