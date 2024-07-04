@@ -1,7 +1,7 @@
 pipeline {
     agent any
     options{
-      buildDiscarder(logRotator(numToKeepStr: '1'))
+      buildDiscarder(logRotator(numToKeepStr: '8'))
       disableConcurrentBuilds()
     }
     environment{
@@ -20,9 +20,9 @@ pipeline {
              branch 'develop'
           }
           steps{
-            withEnv(["DOCKER_IMAGE_TAG=${env.COMMIT_SHORT_SHA}-dev"]){
-
-            }
+            script{
+                env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-dev"
+                }
           }
         }
         stage('prepare image tag for release'){
@@ -30,7 +30,8 @@ pipeline {
              branch 'release'
           }
           steps{
-            withEnv(["DOCKER_IMAGE_TAG=${env.COMMIT_SHORT_SHA}-sit"]){
+            script{
+              env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-sit"
             }
           }
         }
