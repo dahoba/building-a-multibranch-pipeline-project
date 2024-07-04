@@ -55,10 +55,12 @@ pipeline {
                 anyOf { branch 'develop'; branch 'release' }
             }
             steps {
-                if(env.GIT_BRANCH=='develop'){
-                    env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-dev"
-                }else{
-                    env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-sit"
+                script{
+                    if(env.GIT_BRANCH=='develop'){
+                        env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-dev"
+                    }else{
+                        env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-sit"
+                    }
                 }
                 nodejs(nodeJSInstallationName: 'Node 20.x'){
                 sh 'npm install'
@@ -120,6 +122,9 @@ pipeline {
             // when{
             //     anyOf { }
             // }
+            steps{
+                echo "not implemented"
+            }
         }
 
         stage('Deliver non-prod'){
