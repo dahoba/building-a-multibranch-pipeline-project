@@ -55,11 +55,11 @@ pipeline {
                 anyOf { branch 'develop'; branch 'release' }
             }
             steps {
-            if(env.GIT_BRANCH=='develop'){
-                env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-dev"
-            }else{
-                env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-sit"
-            }
+                if(env.GIT_BRANCH=='develop'){
+                    env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-dev"
+                }else{
+                    env.DOCKER_IMAGE_TAG = "${env.COMMIT_SHORT_SHA}-sit"
+                }
                 nodejs(nodeJSInstallationName: 'Node 20.x'){
                 sh 'npm install'
                 }
@@ -99,15 +99,13 @@ pipeline {
                 tag pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+\$", comparator: "REGEXP";
               }
             }
-            steps{
-                input {
-                    message 'Approve for UAT ?'
-                    ok 'Approve'
-                    parameters {
-                        string(name: 'UATAPPROVE', defaultValue: 'true')
-                    }
+            input {
+                message "Approve for UAT ?"
+                ok "Approve"
+                parameters {
+                    string(name: 'UATAPPROVE', defaultValue: 'true')
                 }
-            }
+            } 
             steps{
                 echo "UAT promotion approved!"
             }
