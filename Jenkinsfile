@@ -93,7 +93,7 @@ pipeline {
             }
         }
 
-        stage('UAT approve'){
+        stage('UAT '){
             when{
               anyOf{
                 tag pattern: "v[0-9]+\\.[0-9]+\\.[0-9]+-rc\$", comparator: "REGEXP";
@@ -101,15 +101,19 @@ pipeline {
                 tag pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+\$", comparator: "REGEXP";
               }
             }
-            input {
-                message "Approve for UAT ?"
-                ok "Approve"
-                parameters {
-                    string(name: 'UATAPPROVE', defaultValue: 'true')
+            stages{
+                input {
+                    message "Approve for UAT ?"
+                    ok "Approve"
+                    parameters {
+                        string(name: 'UATAPPROVE', defaultValue: 'true')
+                    }
+                } 
+                stage('UAT Approve'){
+                    steps{
+                        echo "UAT promotion approved!"
+                    }
                 }
-            } 
-            steps{
-                echo "UAT promotion approved!"
             }
                         // tag_sit_version = service_version-sit
             // tag_uat_version = ci_commit_tag (the commit tag name)
