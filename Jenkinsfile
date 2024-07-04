@@ -9,7 +9,7 @@ pipeline {
       COMMIT_SHORT_SHA = """${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"""
       DOCKER_REGISTRY = 'ghcr.io/dahoba'
       DOCKER_IMAGE_NAME = 'building-a-multibranch-pipeline-project'
-      DOCKER_IMAGE_TAG = '${COMMIT_SHORT_SHA}'
+      DOCKER_IMAGE_TAG = "${COMMIT_SHORT_SHA}"
       REPO_NAME = 'building-a-multibranch-pipeline-project'
       DEBUG_MODE = 'false'
       // https://github.com/dahoba/building-a-multibranch-pipeline-project
