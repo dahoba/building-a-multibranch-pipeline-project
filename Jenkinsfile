@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Build Hotfix') {
           when{
-            branch pattern: "hotfix-v[0-9]+\.[0-9]+\.[0-9]+$", comparator: "REGEXP"
+            branch pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+$", comparator: "REGEXP"
           }
           environment {
             TAG_IMG_RELEASE = ${COMMIT_SHORT_SHA}
