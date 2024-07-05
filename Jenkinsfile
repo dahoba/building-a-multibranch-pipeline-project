@@ -102,15 +102,11 @@ pipeline {
               }
             } 
             steps{
-              input {
-                  message "Approve for UAT ?"
-                  ok "Approve"
-                  parameters {
-                      string(name: 'UATAPPROVE', defaultValue: 'true')
-                  }
+              script{
+                env.UATAPPROVE = input message: "Approve for UAT ?",ok: "Approve",parameters:string(name: 'UATAPPROVE', defaultValue: 'true',description: 'UAT Approval')
               }
-              echo "UAT promotion approved!"
-            }
+              echo "UAT promotion approved! ${env.UATAPPROVE}"
+            } 
         }
                         // tag_sit_version = service_version-sit
             // tag_uat_version = ci_commit_tag (the commit tag name)
