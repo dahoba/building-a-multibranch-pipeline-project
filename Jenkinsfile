@@ -100,27 +100,23 @@ pipeline {
                 tag pattern: "v[0-9]+\\.[0-9]+\\.[0-9]+-hfrc\$", comparator: "REGEXP";
                 tag pattern: "hotfix-v[0-9]+\\.[0-9]+\\.[0-9]+\$", comparator: "REGEXP";
               }
+            } 
+            steps{
+              input {
+                  message "Approve for UAT ?"
+                  ok "Approve"
+                  parameters {
+                      string(name: 'UATAPPROVE', defaultValue: 'true')
+                  }
+              }
+              echo "UAT promotion approved!"
             }
-            stages{
-                stage('UAT Approval?'){
-                    input {
-                        message "Approve for UAT ?"
-                        ok "Approve"
-                        parameters {
-                            string(name: 'UATAPPROVE', defaultValue: 'true')
-                        }
-                    } 
-                    steps{
-                        echo "UAT promotion approved!"
-                    }
-                }
-            }
+        }
                         // tag_sit_version = service_version-sit
             // tag_uat_version = ci_commit_tag (the commit tag name)
             // docker login
             // docker tag '-sit' to 'ci_commit_tag'
-            // docker tag '-sit' to latest
-        }
+            // docker tag '-sit' to latest 
 
         stage('Prod approve'){
             // when{
